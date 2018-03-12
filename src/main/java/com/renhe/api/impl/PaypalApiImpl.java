@@ -8,6 +8,7 @@ import com.renhe.Config.PaymentMethod;
 import com.renhe.api.PaypalApi;
 import com.renhe.domain.PaymentBean;
 import com.renhe.service.PaypalService;
+import com.renhe.util.IPUtils;
 import com.renhe.util.URLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * 支付实现层
@@ -37,6 +39,11 @@ public class PaypalApiImpl implements PaypalApi {
 
     @Override
     public String pay(HttpServletRequest request) {
+        try {
+            IPUtils.getIpAddress(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (request == null) {
             return INDEX_URL;
         }
